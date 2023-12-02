@@ -25,7 +25,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const { setName, setRole, setEmail } = useContext(UserContext);
 
-  const roles = ["doctor", "nurse", "patient"];
+  const roles = ["admin", "nurse", "patient"];
 
   async function registerUser(values) {
     setLoading(true);
@@ -47,7 +47,9 @@ const Register = () => {
 
     setLoading(false);
 
-    if (data) {
+    if (data && role === "admin") {
+      navigate("/admin");
+    } else if (data) {
       navigate("/");
     }
   }

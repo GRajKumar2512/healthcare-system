@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
-import PatientDetail from "./PatientDetail";
+import PatientDetail from "../../components/shared/PatientDetail";
 
 const NursePage = () => {
   const [isOpen, setIsOpen] = useState(false);

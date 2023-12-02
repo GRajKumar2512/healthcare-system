@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 
-const PatientDetail = ({ isOpen, closeModal }) => {
+const PatientDetail = ({ isOpen, closeModal, patient }) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -55,60 +55,47 @@ const PatientDetail = ({ isOpen, closeModal }) => {
                     <div className="w-full flex flex-col">
                       <div className="px-2 py-2 border">
                         <h3 className="font-semibold text-lg mb-1">
-                          Full Name:
+                          First Name
                         </h3>
-                        <p>Arjun Verma</p>
+                        <p>{patient?.firstname}</p>
                       </div>
                       <div className="px-2 py-2 border">
                         <h3 className="font-semibold text-lg mb-1">
                           Date of Birth
                         </h3>
-                        <p>1-1-2001</p>
+                        <p>{patient?.dob}</p>
                       </div>
                       <div className="px-2 py-2 border">
                         <h3 className="font-semibold text-lg mb-1">Address</h3>
-                        <p>India</p>
+                        <p>{patient?.address}</p>
+                      </div>
+                      <div className="px-2 py-2 border">
+                        <h3 className="font-semibold text-lg mb-1">
+                          Patient Type
+                        </h3>
+                        <p>{patient?.patientType}</p>
                       </div>
                     </div>
 
                     <div className="w-full flex flex-col">
                       <div className="px-2 py-2 border">
-                        <h3 className="font-semibold text-lg mb-1">Gender:</h3>
-                        <p>Male</p>
+                        <h3 className="font-semibold text-lg mb-1">
+                          Lastname:
+                        </h3>
+                        <p>{patient?.lastname}</p>
                       </div>
                       <div className="px-2 py-2 border">
-                        <h3 className="font-semibold text-lg mb-1">
-                          Contact Information:
-                        </h3>
-                        <p>jlasdkfj</p>
+                        <h3 className="font-semibold text-lg mb-1">Age:</h3>
+                        <p>{patient?.age}</p>
                       </div>
                       <div className="px-2 py-2 border">
-                        <h3 className="font-semibold text-lg mb-1">
-                          Emergency Contact:
-                        </h3>
-                        <p>lalsdkfj</p>
+                        <h3 className="font-semibold text-lg mb-1">Contact:</h3>
+                        <p>{patient?.mobile}</p>
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="flex-1 flex flex-col">
-                    <div className="px-2 py-2 border">
-                      <h3 className="font-semibold text-lg mb-1">
-                        Known Allergies:
-                      </h3>
-                      <p>dkf kaj lakd</p>
-                    </div>
-                    <div className="px-2 py-2 border">
-                      <h3 className="font-semibold text-lg mb-1">
-                        Chronic Conditions:
-                      </h3>
-                      <p>dkf kaj lakd</p>
-                    </div>
-                    <div className="px-2 py-2 border">
-                      <h3 className="font-semibold text-lg mb-1">
-                        Medications:
-                      </h3>
-                      <p>dkf kaj lakd</p>
+                      <div className="px-2 py-2 border">
+                        <h3 className="font-semibold text-lg mb-1">Ailment:</h3>
+                        <p>{patient?.ailment}</p>
+                      </div>
                     </div>
                   </div>
                 </Dialog.Panel>

@@ -21,7 +21,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { setName, setRole, setEmail } = useContext(UserContext);
 
-  const roles = ["doctor", "nurse", "patient"];
+  const roles = ["admin", "nurse", "patient"];
 
   async function loginUser(values) {
     setLoading(true);
@@ -46,8 +46,8 @@ const Login = () => {
 
     setLoading(false);
 
-    if (data && role === "patient") {
-      navigate("/patient");
+    if (data && role === "admin") {
+      navigate("/admin");
     } else if (data) {
       navigate("/");
     }
