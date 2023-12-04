@@ -1,13 +1,23 @@
 import React, { useContext } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import Dropdown from "../components/shared/Dropdown";
+import axios from "axios";
 
 const AdminWrapper = () => {
-  const { name, email } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { name, email, setEmail, setRole, setName } = useContext(UserContext);
 
-  function handleLogout() {
-    alert("are you sure");
+  async function handleLogout() {
+    alert("are you sure ?");
+
+    await axios.post("/logout");
+
+    setRole(null);
+    setEmail(null);
+    setName(null);
+
+    navigate("/");
   }
 
   return (
@@ -23,7 +33,7 @@ const AdminWrapper = () => {
               <p className="text-sm font-semibold text-slate-700">{email}</p>
             </div>
             <button
-              className="bg-yellow-400 text-white px-4 py-1 rounded-md"
+              className="bg-gray-800 text-white px-4 py-1 rounded-md"
               onClick={handleLogout}
             >
               Logout

@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ManagePatient = () => {
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPatients = async () => {
-      const { data } = await axios.get("/record");
+      const { data } = await axios.get("/patient");
 
       setPatients(data);
     };
     getPatients();
   }, []);
+
+  const handleDelete = async () => {
+    await axios.delete(`/patient/${selectedPatient}`);
+    navigate("/admin/manage-patient");
+  };
 
   return (
     <div className="container mx-auto p-8">
@@ -47,8 +52,8 @@ const ManagePatient = () => {
                 <button
                   className="rounded-full py-1 px-3 bg-red-400 text-white"
                   onClick={() => {
-                    setSelectedPatient(row);
-                    setIsOpen(true);
+                    setSelectedPatient(row._id);
+                    handleDelete();
                   }}
                 >
                   delete

@@ -1,13 +1,13 @@
 import express from "express";
-import PatientRecord from "../models/PatientRecord.js";
+import NurseRecord from "../models/NurseRecord.js";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const patientRecords = await PatientRecord.find({});
+    const NurseRecords = await NurseRecord.find({});
 
-    res.status(200).json(patientRecords);
+    res.status(200).json(NurseRecords);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -17,30 +17,32 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const selectedPatient = await PatientRecord.findOne({ patientId: id });
+    const selectedNurse = await NurseRecord.findOne({ nurseId: id });
 
     const {
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       dob,
       age,
       address,
       mobile,
-      ailment,
-      patientType,
-    } = selectedPatient;
+      qualification,
+      department,
+      shift,
+    } = selectedNurse;
 
     res
       .status(200)
       .json({
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         dob,
         age,
         address,
         mobile,
-        ailment,
-        patientType,
+        qualification,
+        department,
+        shift,
       });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -49,28 +51,30 @@ router.get("/:id", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   const {
-    patientId,
-    firstname,
-    lastname,
+    nurseId,
+    firstName,
+    lastName,
     dob,
     age,
     address,
     mobile,
-    ailment,
-    patientType,
+    qualification,
+    department,
+    shift,
   } = req.body;
 
   try {
-    const createRecord = new PatientRecord({
-      patientId,
-      firstname,
-      lastname,
+    const createRecord = new NurseRecord({
+      nurseId,
+      firstName,
+      lastName,
       dob,
       age,
       address,
       mobile,
-      ailment,
-      patientType,
+      qualification,
+      department,
+      shift,
     });
 
     await createRecord.save();
@@ -84,26 +88,28 @@ router.post("/add", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const {
-    firstname,
-    lastname,
+    firstName,
+    lastName,
     dob,
     age,
     address,
     mobile,
-    ailment,
-    patientType,
+    qualification,
+    department,
+    shift,
   } = req.body;
 
   try {
-    const updatedPatient = await PatientRecord.findByIdAndUpdate(id, {
-      firstname,
-      lastname,
+    const updatedPatient = await NurseRecord.findByIdAndUpdate(id, {
+      firstName,
+      lastName,
       dob,
       age,
       address,
       mobile,
-      ailment,
-      patientType,
+      qualification,
+      department,
+      shift,
     });
 
     res.status(200).json(updatedPatient);
@@ -115,7 +121,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    await PatientRecord.findByIdAndDelete(id);
+    await NurseRecord.findByIdAndDelete(id);
 
     res.status(200).json({ message: "deleted successfully" });
   } catch (error) {

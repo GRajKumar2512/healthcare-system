@@ -1,17 +1,17 @@
 import { Schema, model } from "mongoose";
 
-const patientSchema = new Schema({
-  patientId: {
+const nurseSchema = new Schema({
+  nurseId: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
     unique: true,
   },
-  firstname: {
+  firstName: {
     type: String,
     required: true,
   },
-  lastname: {
+  lastName: {
     type: String,
     required: true,
   },
@@ -31,14 +31,18 @@ const patientSchema = new Schema({
     type: String,
     required: true,
   },
-  ailment: {
+  qualification: {
     type: String,
     required: true,
   },
-  patientType: {
+  department: {
+    type: String,
+    required: true,
+  },
+  shift: {
     type: String,
     required: true,
   },
 });
 
-export default model("PatientRecord", patientSchema);
+export default model("NurseRecord", nurseSchema);

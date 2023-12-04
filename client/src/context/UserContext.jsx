@@ -4,6 +4,7 @@ import axios from "axios";
 export const UserContext = createContext({});
 
 export const UserContextProvider = ({ children }) => {
+  const [id, setId] = useState(null);
   const [role, setRole] = useState(null);
   const [email, setEmail] = useState(null);
   const [name, setName] = useState(null);
@@ -12,6 +13,7 @@ export const UserContextProvider = ({ children }) => {
     axios
       .get("/profile")
       .then((response) => {
+        setId(response.data.id);
         setRole(response.data.role);
         setEmail(response.data.email);
         setName(response.data.name);
@@ -21,7 +23,7 @@ export const UserContextProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ role, setRole, email, setEmail, name, setName }}
+      value={{ id, setId, role, setRole, email, setEmail, name, setName }}
     >
       {children}
     </UserContext.Provider>

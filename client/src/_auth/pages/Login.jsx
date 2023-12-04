@@ -36,8 +36,6 @@ const Login = () => {
       role,
     });
 
-    console.log(response);
-
     const { data } = response;
 
     setName(data.name);
@@ -48,7 +46,12 @@ const Login = () => {
 
     if (data && role === "admin") {
       navigate("/admin");
-    } else if (data) {
+    } else if (data && role === "nurse") {
+      navigate("/nurse");
+    } else if (data && role === "patient") {
+      navigate("/patient");
+    } else {
+      alert("wrong crendentials!");
       navigate("/");
     }
   }

@@ -1,34 +1,47 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
-import PatientDetail from "../../components/shared/PatientDetail";
+import axios from "axios";
 
 const NursePage = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  // trigger use effect and loop over all the patients data and pass the details each patient card
-  return (
-    <div className="lg:w-[60%] md:w-[80%] mx-auto mt-20">
-      <h1 className="text-2xl font-semibold text-gray-600 mb-10">
-        Your Patients
-      </h1>
-      <div>
-        <div className="bg-white px-4 py-4 flex gap-4 items-center justify-between shadow-md">
-          <p>Name: Patient Name</p>
-          <p>UID: unique id number</p>
-          <p>Summary: health brief</p>
-          <button
-            className="rounded-full bg-primary py-1 px-5 text-white"
-            onClick={() => setIsOpen(true)}
-          >
-            View record
-          </button>
-        </div>
-      </div>
+  const { id } = useContext(UserContext);
+  const [profile, setProfile] = useState(null);
 
-      <PatientDetail
-        isOpen={isOpen}
-        closeModal={() => setIsOpen(false)}
-        patient={"patient"}
-      />
+  useEffect(() => {
+    if (id) {
+      const getProfileDetails = async () => {
+        const { data } = await axios.get(`/nurse/${id}`);
+
+        setProfile(data);
+      };
+      getProfileDetails();
+    }
+  }, [id]);
+
+  return (
+    <div className="mt-20 flex gap-5">
+      <div className="w-[65%]">
+        <h2 className="mb-5 font-bold text-2xl text-gray-800">My Profile:</h2>
+        {profile ? (
+          Object.entries(profile).map(([key, value]) => (
+            <div
+              className={`flex gap-4 w-full border border-gray-800 bg-gray-800`}
+            >
+              <div className="text-end text-white font-semibold p-2 w-full">
+                {key}:
+              </div>
+              <div className="text-start text-white font-semibold p-2 w-full">
+                {value}
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-2xl text-center">Loading...</p>
+        )}
+      </div>
+      <div className="border border-gray-800 w-[35%] flex flex-col">
+        <div className="flex-1 p-4">Image</div>
+        <div className="p-4">Status</div>
+      </div>
     </div>
   );
 };

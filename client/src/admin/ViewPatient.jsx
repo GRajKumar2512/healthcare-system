@@ -9,7 +9,7 @@ const ViewPatient = () => {
 
   useEffect(() => {
     const getPatients = async () => {
-      const { data } = await axios.get("/record");
+      const { data } = await axios.get("/patient");
 
       setPatients(data);
     };
@@ -32,7 +32,7 @@ const ViewPatient = () => {
         </thead>
         <tbody>
           {patients.map((row, index) => (
-            <tr key={row.id}>
+            <tr key={row._id}>
               <td>{index + 1}</td>
               <td>{row.firstname}</td>
               <td>{row.address}</td>

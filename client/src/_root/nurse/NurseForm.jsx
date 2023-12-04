@@ -1,49 +1,47 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 
 const regExp = /^[0-9]{10}$/;
 
 const validationSchema = Yup.object().shape({
-  firstname: Yup.string().required("First Name is required"),
-  lastname: Yup.string().required("Last Name is required"),
+  firstName: Yup.string().required("First Name is required"),
+  lastName: Yup.string().required("Last Name is required"),
   dob: Yup.date().required("Date of Birth is required"),
   age: Yup.number().required("Age is required"),
   address: Yup.string().required("Address is required"),
   mobile: Yup.string()
     .matches(regExp, "Invalid Number")
     .required("Mobile No is required"),
-  ailment: Yup.string().required("Ailment is required"),
-  patientType: Yup.string().required("Patient Type is required"),
+  qualification: Yup.string().required("Qualification is required"),
+  department: Yup.string().required("Department is required"),
+  shift: Yup.string().required("Shift is required"),
 });
 
-const PatientForm = () => {
+const NurseForm = () => {
   const navigate = useNavigate();
-  const { id } = useContext(UserContext);
+  const { id: nurseId } = useContext(UserContext);
 
   const initialValues = {
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     dob: "",
     age: "",
     address: "",
     mobile: "",
-    ailment: "",
-    patientType: "",
+    qualification: "",
+    department: "",
+    shift: "",
   };
 
-  // Form submission handler
   const onSubmit = async (values) => {
-    const { data } = await axios.post("/patient/add", {
-      patientId: id,
-      ...values,
-    });
+    const { data } = await axios.post("/nurse/add", { nurseId, ...values });
 
     if (data) {
-      navigate("/patient/profile");
+      navigate("/nurse/profile");
     }
   };
 
@@ -55,55 +53,55 @@ const PatientForm = () => {
         onSubmit={onSubmit}
       >
         <Form className="lg:w-[70%] md:w-[80%] mx-auto py-8 px-10 border bg-gray-100">
-          <div className=" py-2">
-            <label htmlFor="firstname">First Name:</label>
+          <div className="px-4 py-2">
+            <label htmlFor="firstName">First Name:</label>
             <Field
               type="text"
-              id="firstname"
-              name="firstname"
+              id="firstName"
+              name="firstName"
               placeholder="John"
             />
             <ErrorMessage
-              name="firstname"
+              name="firstName"
               component="div"
               className="text-red-500"
             />
           </div>
 
-          <div className=" py-2">
-            <label htmlFor="lastname">Last Name:</label>
+          <div className="px-4 py-2">
+            <label htmlFor="lastName">Last Name:</label>
             <Field
               type="text"
-              id="lastname"
-              name="lastname"
+              id="lastName"
+              name="lastName"
               placeholder="Doe"
             />
             <ErrorMessage
-              name="lastname"
+              name="lastName"
               component="div"
               className="text-red-500"
             />
           </div>
 
-          <div className=" py-2">
+          <div className="px-4 py-2">
             <label htmlFor="dob">Date of Birth:</label>
             <Field type="date" id="dob" name="dob" placeholder="" />
             <ErrorMessage name="dob" component="div" className="text-red-500" />
           </div>
 
-          <div className=" py-2">
+          <div className="px-4 py-2">
             <label htmlFor="age">Age:</label>
-            <Field type="number" id="age" name="age" placeholder="eg. 20" />
+            <Field type="number" id="age" name="age" placeholder="eg. 23" />
             <ErrorMessage name="age" component="div" className="text-red-500" />
           </div>
 
-          <div className=" py-2">
+          <div className="px-4 py-2">
             <label htmlFor="address">Address:</label>
             <Field
               type="text"
               id="address"
               name="address"
-              placeholder="H.no, Street, Area, City"
+              placeholder="H. No, Street, Area, City"
             />
             <ErrorMessage
               name="address"
@@ -112,13 +110,13 @@ const PatientForm = () => {
             />
           </div>
 
-          <div className=" py-2">
+          <div className="px-4 py-2">
             <label htmlFor="mobile">Mobile No:</label>
             <Field
               type="text"
               id="mobile"
               name="mobile"
-              placeholder="Your Number"
+              placeholder="Your Mobile No."
             />
             <ErrorMessage
               name="mobile"
@@ -127,34 +125,51 @@ const PatientForm = () => {
             />
           </div>
 
-          <div className=" py-2">
-            <label htmlFor="ailment">Ailment:</label>
+          <div className="px-4 py-2">
+            <label htmlFor="qualification">Qualification:</label>
             <Field
               type="text"
-              id="ailment"
-              name="ailment"
-              placeholder="Any Ailments"
+              id="qualification"
+              name="qualification"
+              placeholder="eg. Bsc etc"
             />
             <ErrorMessage
-              name="ailment"
+              name="qualification"
               component="div"
               className="text-red-500"
             />
           </div>
 
-          <div className=" py-2">
-            <label htmlFor="patientType">Patient Type:</label>
-            <Field as="select" id="patientType" name="patientType">
-              <option value="">Select Patient Type</option>
-              <option value="In">In</option>
-              <option value="Out">Out</option>
-            </Field>
+          <div className="px-4 py-2">
+            <label htmlFor="department">Department:</label>
+            <Field
+              type="text"
+              id="department"
+              name="department"
+              placeholder="eg. Critical Care"
+            />
             <ErrorMessage
-              name="patientType"
+              name="department"
               component="div"
               className="text-red-500"
             />
           </div>
+
+          <div className="px-4 py-2">
+            <label htmlFor="shift">Shift:</label>
+            <Field
+              type="text"
+              id="shift"
+              name="shift"
+              placeholder="Night / Day"
+            />
+            <ErrorMessage
+              name="shift"
+              component="div"
+              className="text-red-500"
+            />
+          </div>
+
           <div className="text-end mt-5">
             <button
               type="submit"
@@ -169,41 +184,4 @@ const PatientForm = () => {
   );
 };
 
-export default PatientForm;
-
-// const [patient, setPatient] = useState(null);
-
-// useEffect(() => {
-//   if (id) {
-//     const getPatientDetails = async () => {
-//       const { data } = await axios.get(`/patient/${id}`);
-
-//       setPatient((prevPatient) => ({ ...prevPatient, ...data }));
-
-//       console.log("updated patient", patient);
-//     };
-//     getPatientDetails();
-//   }
-// }, [id]);
-
-// const initialValues = id
-//   ? {
-//       firstname: patient?.firstname,
-//       lastname: patient?.lastname,
-//       dob: patient?.dob,
-//       age: patient?.age,
-//       address: patient?.address,
-//       mobile: patient?.mobile,
-//       ailment: patient?.ailment,
-//       patientType: patient?.type,
-//     }
-//   : {
-//       firstname: "",
-//       lastname: "",
-//       dob: "",
-//       age: "",
-//       address: "",
-//       mobile: "",
-//       ailment: "",
-//       patientType: "",
-//     };
+export default NurseForm;

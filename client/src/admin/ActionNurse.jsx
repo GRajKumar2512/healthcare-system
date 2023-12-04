@@ -5,67 +5,70 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Define Yup schema for validation
+
 const regExp = /^[0-9]{10}$/;
 
 const validationSchema = Yup.object().shape({
-  firstname: Yup.string().required("First Name is required"),
-  lastname: Yup.string().required("Last Name is required"),
+  firstName: Yup.string().required("First Name is required"),
+  lastName: Yup.string().required("Last Name is required"),
   dob: Yup.date().required("Date of Birth is required"),
   age: Yup.number().required("Age is required"),
   address: Yup.string().required("Address is required"),
   mobile: Yup.string()
     .matches(regExp, "Invalid Number")
     .required("Mobile No is required"),
-  ailment: Yup.string().required("Ailment is required"),
-  patientType: Yup.string().required("Patient Type is required"),
+  qualification: Yup.string().required("Qualification is required"),
+  department: Yup.string().required("Department is required"),
+  shift: Yup.string().required("Shift is required"),
 });
 
-const ActionPatient = () => {
+const ActionNurse = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [patient, setPatient] = useState(null);
+  const [nurse, setNurse] = useState(null);
 
   useEffect(() => {
     if (id) {
-      const getPatientDetails = async () => {
-        const { data } = await axios.get(`/patient/${id}`);
+      const getNurseDetails = async () => {
+        const { data } = await axios.get(`/nurse/${id}`);
 
-        setPatient((prevPatient) => ({ ...prevPatient, ...data }));
+        setNurse((prevNurse) => ({ ...prevNurse, ...data }));
 
-        console.log("updated patient", patient);
+        console.log("updated nurse", nurse);
       };
-      getPatientDetails();
+      getNurseDetails();
     }
   }, [id]);
 
   const initialValues = id
     ? {
-        firstname: patient?.firstname,
-        lastname: patient?.lastname,
-        dob: patient?.dob,
-        age: patient?.age,
-        address: patient?.address,
-        mobile: patient?.mobile,
-        ailment: patient?.ailment,
-        patientType: patient?.type,
+        firstName: nurse?.firstName,
+        lastName: nurse?.lastName,
+        dob: nurse?.dob,
+        age: nurse?.age,
+        address: nurse?.address,
+        mobile: nurse?.mobile,
+        qualification: nurse?.qualification,
+        department: nurse?.department,
+        shift: nurse?.shift,
       }
     : {
-        firstname: "",
-        lastname: "",
+        firstName: "",
+        lastName: "",
         dob: "",
         age: "",
         address: "",
         mobile: "",
-        ailment: "",
-        patientType: "",
+        qualification: "",
+        department: "",
+        shift: "",
       };
 
-  // Form submission handler
   const onSubmit = async (values) => {
-    const { data } = await axios.post("/patient/add", { ...values });
+    const { data } = await axios.post("/nurse/add", { nurseId: id, ...values });
 
     if (data) {
-      navigate("/admin/view-patient");
+      navigate("/admin/view-nurse");
     }
   };
 
@@ -78,25 +81,25 @@ const ActionPatient = () => {
       >
         <Form className="w-[80%] mx-auto p-4 border border-gray-500">
           <div className="px-4 py-2">
-            <label htmlFor="firstname">First Name:</label>
+            <label htmlFor="firstName">First Name:</label>
             <Field
               type="text"
-              id="firstname"
-              name="firstname"
+              id="firstName"
+              name="firstName"
               className="border border-gray-500"
             />
-            <ErrorMessage name="firstname" component="div" />
+            <ErrorMessage name="firstName" component="div" />
           </div>
 
           <div className="px-4 py-2">
-            <label htmlFor="lastname">Last Name:</label>
+            <label htmlFor="lastName">Last Name:</label>
             <Field
               type="text"
-              id="lastname"
-              name="lastname"
+              id="lastName"
+              name="lastName"
               className="border border-gray-500"
             />
-            <ErrorMessage name="lastname" component="div" />
+            <ErrorMessage name="lastName" component="div" />
           </div>
 
           <div className="px-4 py-2">
@@ -144,30 +147,38 @@ const ActionPatient = () => {
           </div>
 
           <div className="px-4 py-2">
-            <label htmlFor="ailment">Ailment:</label>
+            <label htmlFor="qualification">Qualification:</label>
             <Field
               type="text"
-              id="ailment"
-              name="ailment"
+              id="qualification"
+              name="qualification"
               className="border border-gray-500"
             />
-            <ErrorMessage name="ailment" component="div" />
+            <ErrorMessage name="qualification" component="div" />
           </div>
 
           <div className="px-4 py-2">
-            <label htmlFor="patientType">Patient Type:</label>
+            <label htmlFor="department">Department:</label>
             <Field
-              as="select"
-              id="patientType"
-              name="patientType"
+              type="text"
+              id="department"
+              name="department"
               className="border border-gray-500"
-            >
-              <option value="">Select Patient Type</option>
-              <option value="In">In</option>
-              <option value="Out">Out</option>
-            </Field>
-            <ErrorMessage name="patientType" component="div" />
+            />
+            <ErrorMessage name="department" component="div" />
           </div>
+
+          <div className="px-4 py-2">
+            <label htmlFor="shift">Shift:</label>
+            <Field
+              type="text"
+              id="shift"
+              name="shift"
+              className="border border-gray-500"
+            />
+            <ErrorMessage name="shift" component="div" />
+          </div>
+
           <div className="text-center mt-5">
             <button
               type="submit"
@@ -182,6 +193,4 @@ const ActionPatient = () => {
   );
 };
 
-export default ActionPatient;
-
-// firstname, lastname, dob, age, address, mobile no, ailment, patient type
+export default ActionNurse;

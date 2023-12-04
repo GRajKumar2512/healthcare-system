@@ -17,9 +17,13 @@ table {
 }
 
 table thead tr {
-  @apply text-white bg-primary;
+  @apply text-gray-800 bg-gray-200;
+}
+
+table thead tr th {
+  @apply text-start py-2 px-4;
 }
 
 table tbody tr td {
-  @apply border border-primary py-2 px-4 border-b;
+  @apply border border-gray-200 py-2 px-4 border-b text-gray-700;
 }
