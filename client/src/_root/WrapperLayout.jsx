@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import Dropdown from "../components/shared/Dropdown";
 import axios from "axios";
 
 const WrapperLayout = () => {
   const navigate = useNavigate();
-  const { name, email, role, setEmail, setRole, setName } =
+  const { name, email, role, setEmail, setRole, setName, setId } =
     useContext(UserContext);
 
   async function handleLogout() {
@@ -14,6 +13,7 @@ const WrapperLayout = () => {
 
     await axios.post("/logout");
 
+    setId(null);
     setRole(null);
     setEmail(null);
     setName(null);

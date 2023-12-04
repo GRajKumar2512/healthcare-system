@@ -24,6 +24,7 @@ const validationSchema = Yup.object().shape({
 const NurseForm = () => {
   const navigate = useNavigate();
   const { id: nurseId } = useContext(UserContext);
+  console.log(nurseId);
 
   const initialValues = {
     firstName: "",

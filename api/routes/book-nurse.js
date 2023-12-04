@@ -1,7 +1,7 @@
 import express from "express";
 import Booking from "../models/Booking.js";
 import NurseRecord from "../models/NurseRecord.js";
-import transporter from "../lib/Nodemailer.js";
+import sendBookingConfirmationEmail from "../lib/sendEmail.js";
 
 const router = express.Router();
 
@@ -56,17 +56,14 @@ router.post("/", async (req, res) => {
 
     await createdBooking.save();
 
-    // const populatedBooking = await Booking.findById(createdBooking._id).populate("nurse");
-    // const nurseEmail = populatedBooking.nurse.email;
+    const populatedBooking = await Booking.findById(
+      createdBooking._id
+    ).populate("nurse");
+    const nurseEmail = populatedBooking.nurse.email;
 
-    // const mailOptions = {
-    //   from: "your@gmai.com",
-    //   to: nurseEmail,
-    //   subject: "New Booking",
-    //   text: "A new booking has been made. Please check your schedule."
-    // }
+    console.log(nurseEmail);
 
-    // await transporter.sendMail(mailOptions);
+    await sendBookingConfirmationEmail(nurseEmail);
 
     res.status(200).json(createdBooking);
   } catch (error) {
